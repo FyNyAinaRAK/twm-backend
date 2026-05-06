@@ -1,8 +1,10 @@
 const jwt = require('jsonwebtoken');
 
 const verifyToken = (req, res, next) => {
-    // Priorité aux Cookies (pour le streaming), puis Header (pour l'API)
-    const token = req.cookies.token || (req.headers['authorization'] && req.headers['authorization'].split(' ')[1]);
+    // Priorité aux Cookies, puis Header, puis Query Param (très utile pour le streaming vidéo cross-origin)
+    const token = req.cookies.token || 
+                  (req.headers['authorization'] && req.headers['authorization'].split(' ')[1]) ||
+                  req.query.token;
 
     if (!token) {
         return res.status(401).json({ message: 'Accès refusé. Aucun token fourni.' });
