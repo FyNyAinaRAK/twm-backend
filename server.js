@@ -17,12 +17,10 @@ const videoRoutes = require('./src/routes/videoRoutes');
 const authRoutes = require('./src/routes/authRoutes');
 const { verifyToken } = require('./src/middleware/authMiddleware');
 
-// 1. Servir l'application mobile (frontend)
+// 1. Backend API (Plus besoin de servir le HTML ici car c'est pour l'application mobile)
 app.get('/', (req, res) => {
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.sendFile(path.join(__dirname, '../mobile/www/index.html'));
+    res.send('TWM Streaming API est en ligne !');
 });
-app.use(express.static(path.join(__dirname, '../mobile/www')));
 
 // 2. Rendre le dossier HLS protégé par JWT (Cookies)
 app.use('/hls', verifyToken, express.static(path.join(__dirname, 'hls')));
